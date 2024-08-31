@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smart Harvest: Intelligent Agricultural Suitability Analysis</title>
+  <link rel="icon" href="{{ url_for('static', filename='harvest.ico') }}" type="image/x-icon">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <style>
+    body {
+      background: #f8f9fa;
+      color: #333;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .container {
+      width: 100%;
+      max-width: 800px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin: 20px;
+    }
+    h3 {
+      font-weight: 700;
+      color: #007bff;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    h2 {
+      font-weight: 600;
+      color: #6c757d;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    label {
+      margin-top: 15px;
+      font-weight: 500;
+      color: #495057;
+    }
+    .btn {
+      background-color: #007bff;
+      color: white;
+      font-weight: 600;
+      border-radius: 5px;
+      width: 100%;
+    }
+    .btn:hover {
+      background-color: #0056b3;
+    }
+    .form-control {
+      border: 1px solid #ced4da;
+      border-radius: 5px;
+    }
+    .alert {
+      font-weight: 600;
+    }
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+      }
+      h3, h2 {
+        font-size: 1.5rem;
+      }
+      .btn {
+        padding: 10px;
+      }
+    }
+    @media (max-width: 576px) {
+      .container {
+        padding: 15px;
+      }
+      h3, h2 {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h3 class="text-center">Smart Harvest: Intelligent Agricultural Suitability Analysis</h3>
+
+    <form action="/predict_crop" method="post">
+      <div class="mb-3">
+        <label for="N">Nitrogen (N)</label>
+        <input type="number" class="form-control form-control-lg" name="N" id="N" step="any" required>
+      </div>
+      <div class="mb-3">
+        <label for="P">Phosphorus (P)</label>
+        <input type="number" class="form-control form-control-lg" name="P" id="P" step="any" required>
+      </div>
+      <div class="mb-3">
+        <label for="K">Potassium (K)</label>
+        <input type="number" class="form-control form-control-lg" name="K" id="K" step="any" required>
+      </div>
+      <div class="mb-3">
+        <label for="temperature">Temperature (°C)</label>
+        <input type="number" class="form-control form-control-lg" name="temperature" id="temperature" step="any" required>
+      </div>
+      <div class="mb-3">
+        <label for="humidity">Humidity (%)</label>
+        <input type="number" class="form-control form-control-lg" name="humidity" id="humidity" step="any" required>
+      </div>
+      <div class="mb-3">
+        <label for="ph">pH</label>
+        <input type="number" class="form-control form-control-lg" name="ph" id="ph" step="any" required>
+      </div>
+      <div class="mb-3">
+        <label for="rainfall">Rainfall (mm)</label>
+        <input type="number" class="form-control form-control-lg" name="rainfall" id="rainfall" step="any" required>
+      </div>
+      <button type="submit" class="btn btn-lg mt-4">Predict</button>
+    </form>
+
+    {% if prediction %}
+      <div class="alert alert-success text-center mt-4">
+        <h2>{{ prediction }}</h2>
+      </div>
+    {% endif %}
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+  
+  <script>
+    document.querySelectorAll('input[type="number"]').forEach(input => {
+      input.addEventListener('input', function (event) {
+        // Allow only numbers and dots for floating point values
+        this.value = this.value.replace(/[^0-9.]/g, '');
+        // Ensure only one dot is allowed
+        if (this.value.split('.').length > 2) {
+          this.value = this.value.replace(/\.+$/, '');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
