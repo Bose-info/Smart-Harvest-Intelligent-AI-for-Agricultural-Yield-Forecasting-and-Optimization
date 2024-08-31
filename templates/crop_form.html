@@ -91,37 +91,37 @@
     <form action="/predict_crop" method="post">
       <div class="mb-3">
         <label for="N">Nitrogen (N)</label>
-        <input type="number" class="form-control form-control-lg" name="N" id="N" step="any" required>
+        <input type="text" class="form-control form-control-lg" name="N" id="N" required>
       </div>
       <div class="mb-3">
         <label for="P">Phosphorus (P)</label>
-        <input type="number" class="form-control form-control-lg" name="P" id="P" step="any" required>
+        <input type="text" class="form-control form-control-lg" name="P" id="P" required>
       </div>
       <div class="mb-3">
         <label for="K">Potassium (K)</label>
-        <input type="number" class="form-control form-control-lg" name="K" id="K" step="any" required>
+        <input type="text" class="form-control form-control-lg" name="K" id="K" required>
       </div>
       <div class="mb-3">
         <label for="temperature">Temperature (°C)</label>
-        <input type="number" class="form-control form-control-lg" name="temperature" id="temperature" step="any" required>
+        <input type="text" class="form-control form-control-lg" name="temperature" id="temperature" required>
       </div>
       <div class="mb-3">
         <label for="humidity">Humidity (%)</label>
-        <input type="number" class="form-control form-control-lg" name="humidity" id="humidity" step="any" required>
+        <input type="text" class="form-control form-control-lg" name="humidity" id="humidity" required>
       </div>
       <div class="mb-3">
         <label for="ph">pH</label>
-        <input type="number" class="form-control form-control-lg" name="ph" id="ph" step="any" required>
+        <input type="text" class="form-control form-control-lg" name="ph" id="ph" required>
       </div>
       <div class="mb-3">
         <label for="rainfall">Rainfall (mm)</label>
-        <input type="number" class="form-control form-control-lg" name="rainfall" id="rainfall" step="any" required>
+        <input type="text" class="form-control form-control-lg" name="rainfall" id="rainfall" required>
       </div>
       <button type="submit" class="btn btn-lg mt-4">Predict</button>
     </form>
 
     {% if prediction %}
-      <div class="alert alert-success text-center mt-4">
+      <div class="alert alert-success text-center mt-4" id="prediction">
         <h2>{{ prediction }}</h2>
       </div>
     {% endif %}
@@ -130,7 +130,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
   
   <script>
-    document.querySelectorAll('input[type="number"]').forEach(input => {
+    document.querySelectorAll('input[type="text"]').forEach(input => {
       input.addEventListener('input', function (event) {
         // Allow only numbers and dots for floating point values
         this.value = this.value.replace(/[^0-9.]/g, '');
@@ -139,6 +139,15 @@
           this.value = this.value.replace(/\.+$/, '');
         }
       });
+    });
+
+    // Capitalize the first letter of the prediction output
+    document.addEventListener('DOMContentLoaded', function () {
+      const predictionElement = document.getElementById('prediction');
+      if (predictionElement) {
+        const predictionText = predictionElement.querySelector('h2');
+        predictionText.textContent = predictionText.textContent.charAt(0).toUpperCase() + predictionText.textContent.slice(1);
+      }
     });
   </script>
 
